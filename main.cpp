@@ -1,16 +1,16 @@
 #include <iostream>
 #include <vector>
-#include <ranges>
 #include <iterator>
 #include <string>
 #include <algorithm>
 #include <list>
 #include <map>
+#include <set>
 #include <string_view>
-#include <span>
 #include <forward_list>
 #include <deque>
 #include "concepts.h"
+#include "ranges.h"
 
 
 int main()
@@ -234,5 +234,9 @@ int main()
     std::cout << isViewableRange(str_view) << '\n';
 //    std::cout << isViewableRange(c_arr) << '\n'; // Error: си массив владеет своими объектами
     std::cout << isViewableRange(span) << '\n';
+
+    /*ranges*/
+    rangesExamples();
+
     return 0;
 }
