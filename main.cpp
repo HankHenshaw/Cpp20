@@ -6,6 +6,10 @@
 #include <algorithm>
 #include <list>
 #include <map>
+#include <string_view>
+#include <span>
+#include <forward_list>
+#include <deque>
 #include "concepts.h"
 
 
@@ -31,7 +35,14 @@ int main()
     std::vector<int> vec;
     std::vector vec2{1,2,3};
     std::list list{1,2,3};
+    std::string str{"Hello"};
+    std::string_view str_view{"World"};
+    int c_arr[42];
+    std::span<int, 42> span{c_arr};
+    std::forward_list<int> fl;
+    std::deque<int> deq;
 
+    /*Концепты из concepts хэдера*/
     std::cout << isSame(ch1, ch2) << '\n';
 //    std::cout << isSame(ch1, unsignedVal1) << '\n'; // Error: не соответствие типов
 
@@ -151,5 +162,77 @@ int main()
 
     ContainerWrapper cont(vec2);
     cont.size(); // ok: у vector'a есть методы begin и end
+
+    /*Концепты из ranges хэдера*/
+    std::cout << isRange(vec) << '\n';
+    std::cout << isRange(str) << '\n';
+    std::cout << isRange(str_view) << '\n';
+    std::cout << isRange(c_arr) << '\n';
+    std::cout << isRange(span) << '\n';
+    std::cout << isRange(fl) << '\n';
+//    std::cout << isRange(ch1) << '\n'; // Error: собс-но char не является range'om
+
+    std::cout << isSizedRange(vec) << '\n';
+    std::cout << isSizedRange(str) << '\n';
+    std::cout << isSizedRange(str_view) << '\n';
+    std::cout << isSizedRange(c_arr) << '\n';
+    std::cout << isSizedRange(span) << '\n';
+//    std::cout << isSizedRange(fl) << '\n'; // Error: у forward_list нету метода size
+
+    // std::cout << isView(vec) << '\n'; // Error: STL контейнеры не являются view
+    // std::cout << isView(str) << '\n'; // Error: то же самое что и с вектором, стринга не унаследована от view_base
+    std::cout << isView(str_view) << '\n'; // Ok: тут в самом название типа говорится что он view
+
+    std::cout << isInputRange(vec) << '\n'; // Ok: т.к. категория итератора тут везде минимум forward_iterator 
+    std::cout << isInputRange(str) << '\n';
+    std::cout << isInputRange(str_view) << '\n';
+    std::cout << isInputRange(c_arr) << '\n';
+    std::cout << isInputRange(span) << '\n';
+    std::cout << isInputRange(fl) << '\n';
+    
+    std::cout << isOutputRange<std::vector<int>, int>(vec) << '\n';
+    std::cout << isOutputRange<std::vector<int>, long>(vec) << '\n';
+//    std::cout << isOutputRange<std::vector<int>, std::string>(vec) << '\n';//Error: несовпадение типов + нету неявного приведения
+
+    std::cout << isForwardRange(vec) << '\n'; // Ok: т.к. категория итератора тут везде минимум forward_iterator 
+    std::cout << isForwardRange(str) << '\n';
+    std::cout << isForwardRange(str_view) << '\n';
+    std::cout << isForwardRange(c_arr) << '\n';
+    std::cout << isForwardRange(span) << '\n';
+    std::cout << isForwardRange(fl) << '\n';
+
+    std::cout << isBidirectdRange(vec) << '\n';
+    std::cout << isBidirectdRange(str) << '\n';
+    std::cout << isBidirectdRange(str_view) << '\n';
+    std::cout << isBidirectdRange(c_arr) << '\n';
+    std::cout << isBidirectdRange(span) << '\n';
+ //   std::cout << isBidirectdRange(fl) << '\n'; // Error: у forward_list's forward_iterator_tag
+
+    std::cout << isRandomAccessRange(vec) << '\n';
+    std::cout << isRandomAccessRange(str) << '\n';
+    std::cout << isRandomAccessRange(str_view) << '\n';
+    std::cout << isRandomAccessRange(c_arr) << '\n';
+    std::cout << isRandomAccessRange(span) << '\n';
+ //   std::cout << isRandomAccessRange(list) << '\n'; // Error: у list'a bidirectional_iterator_tag
+ //   std::cout << isRandomAccessRange(fl) << '\n'; // Error: у forward_list'a forward_iterator_tag
+    
+    std::cout << isContiguousRange(vec) << '\n';
+    std::cout << isContiguousRange(str) << '\n';
+    std::cout << isContiguousRange(str_view) << '\n';
+    std::cout << isContiguousRange(c_arr) << '\n';
+    std::cout << isContiguousRange(span) << '\n';
+ //   std::cout << isContiguousRange(deq) << '\n'; // Error: y deque'a random_access_iterator_tag
+
+    std::cout << isCommonRange(vec) << '\n'; // Ok: все STL контейнеры являются common_rage
+    std::cout << isCommonRange(str) << '\n';
+    std::cout << isCommonRange(str_view) << '\n';
+    std::cout << isCommonRange(c_arr) << '\n';
+    std::cout << isCommonRange(span) << '\n';
+
+//    std::cout << isViewableRange(vec) << '\n';  // Error: вектор владеет своими объектами
+//    std::cout << isViewableRange(str) << '\n'; // Error: строка владеет своими объектами
+    std::cout << isViewableRange(str_view) << '\n';
+//    std::cout << isViewableRange(c_arr) << '\n'; // Error: си массив владеет своими объектами
+    std::cout << isViewableRange(span) << '\n';
     return 0;
 }

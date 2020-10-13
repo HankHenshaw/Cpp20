@@ -1,4 +1,5 @@
 #include <concepts>
+#include <ranges>
 #include <string>
 #include <cmath>
 #include <iostream>
@@ -46,7 +47,7 @@ public:
     F(int val) : m_val(val) {};
 };
 
-/*Библиотечные концепты*/
+/*Концепты из concepts хэдера*/
 /*--------Core language concepts--------*/
 //1 - same_as указывает на то, что типы одинаковые
 template<typename T, typename U> requires std::same_as<T, U>
@@ -236,7 +237,7 @@ bool isStrictWeakOrdered(T t, const U& a, const I& b)
     return 1;
 }
 /*-----------------------------------*/
-/*Библиотечные концепты*/
+/*Концепты из concepts хэдера*/
 /*Кастомные концепты*/
 //1 - простой концепт указывает на наличие у типа метода custom
 template<typename T>
@@ -273,3 +274,71 @@ public:
     void size() const {std::cout << "Size: " << m_val.size() << '\n';};
 };
 /*Кастомные концепты*/
+/*Концепты из ranges хэдера*/
+//1 - range указывает на то что, данный тип является диапазоном
+template<std::ranges::range T>
+bool isRange(const T& a)
+{
+    return 1;
+}
+//2 - sized_range указывает на то что, данный диапазон знает его размер за константное время
+template<std::ranges::sized_range T>
+bool isSizedRange(const T& a)
+{
+    return 1;
+}
+//3 - view указывает на то что, данный диапазон является представлением и исеет константное копирование/перемещение/присваивание
+template<std::ranges::view T>
+bool isView(const T& a)
+{
+    return 1;
+}
+//4 - input_range указывает на то что, данный диапазон c входным доступом
+template<std::ranges::input_range T>
+bool isInputRange(const T& a)
+{
+    return 1;
+}
+//5 - output_range указывает на то что, данный диапазон c выходным доступом
+template<typename T, typename U> requires std::ranges::output_range<T,U>
+bool isOutputRange(const T& a)
+{
+    return 1;
+}
+//6 - forward_range указывает на то что, данный диапазон c последовательным доступом
+template<std::ranges::forward_range T>
+bool isForwardRange(const T& a)
+{
+    return 1;
+}
+//7 - bidirectional_range указывает на то что, данный диапазон c двухсторонним доступом
+template<std::ranges::bidirectional_range T>
+bool isBidirectdRange(const T& a)
+{
+    return 1;
+}
+//8 - random_access_range указывает на то что, данный диапазон c произвольным доступом
+template<std::ranges::random_access_range T>
+bool isRandomAccessRange(const T& a)
+{
+    return 1;
+}
+//9 - contiguous_range указывает на то что, данный диапазон c последовательным расположением эл-тов
+template<std::ranges::contiguous_range T>
+bool isContiguousRange(const T& a)
+{
+    return 1;
+}
+//10 - common_range указывает на то что, данный диапазон возвращаят одинковый тип для begin и end
+template<std::ranges::common_range T>
+bool isCommonRange(const T& a)
+{
+    return 1;
+}
+//11 - viewable_range указывает на то что, данный диапазон можно безопасно конвертировать в представление
+template<std::ranges::viewable_range T>
+bool isViewableRange(const T& a)
+{
+    return 1;
+}
+/*Концепты из ranges хэдера*/
