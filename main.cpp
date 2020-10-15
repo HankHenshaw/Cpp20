@@ -11,12 +11,13 @@
 #include <deque>
 #include "concepts.h"
 #include "ranges.h"
-
+#include "coroutines.h"
 
 int main()
 {
     conceptExamples();
     rangesExamples();
+    genUse();
     
     return 0;
 }
