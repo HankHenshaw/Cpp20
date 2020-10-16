@@ -128,7 +128,7 @@ generator<T> fact(T end, T begin = 0)
 
 void genUse()
 {
-    std::cout << "Coroutines Examples:\n\n";
+    std::cout << "\n\nCoroutines Examples:\n";
 
     int max = 8;
 

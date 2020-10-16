@@ -24,7 +24,7 @@ std::vector<int> foo();
 
 void rangesExamples()
 {
-    std::cout << "Range Examples: \n\n";
+    std::cout << "\n\nRange Examples: \n";
 
     int arr[] {5,7,9,10,15,-3,5,0,-1};
     std::vector vec{1,2,3};

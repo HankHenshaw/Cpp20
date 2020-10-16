@@ -356,7 +356,7 @@ bool isViewableRange(const T& a)
 
 void conceptExamples()
 {
-    std::cout << "Concept Examples: \n\n";
+    std::cout << "\nConcept Examples: \n";
 
     A a;
     B b;

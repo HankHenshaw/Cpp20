@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.5)
 
 project(cpp20)
 
-add_executable(cpp main.cpp concepts.h modules.h)
+add_executable(cpp main.cpp concepts.h modules.h coroutines.h others.h)
 
 set_target_properties(cpp PROPERTIES
     CXX_STANDARD 2a
