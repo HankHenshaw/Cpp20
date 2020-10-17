@@ -14,6 +14,7 @@
 #include <compare>
 #include <type_traits>
 #include <map>
+//#include <source_location> // gcc 10.2 не поддерживает source_location
 
 struct two_t{};
 template<typename T>
@@ -169,10 +170,19 @@ void compare()
     std::cout << std::is_gteq(f1 <=> f2) << '\n';
 }
 
+// void sourceLocation(const std::source_location& loc = std::source_location::current())
+// {
+//     std::cout << "File name: "     << loc.file_name()     << '\n'
+//               << "Function name: " << loc.function_name() << '\n'
+//               << "Line: "          << loc.line()          << '\n'
+//               << "Column: "        << loc.column()        << '\n';
+// }
+
 void othersExamples()
 {
     span();
     bit();
     numbers();
     compare();
+//    sourceLocation();
 }

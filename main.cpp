@@ -9,6 +9,6 @@ int main()
     rangesExamples();
     genUse();
     othersExamples();
-
+    
     return 0;
 }
