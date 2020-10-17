@@ -11,10 +11,39 @@
 #include <bitset>
 #include <vector>
 #include <numbers>
+#include <compare>
+#include <type_traits>
+#include <map>
 
 struct two_t{};
 template<typename T>
 constexpr auto operator^(T base, two_t) {return base*base;}
+
+template<typename T>
+void ordering()
+{
+    if constexpr (std::is_same_v<T, std::strong_ordering>)
+        std::cout << "strong ordering\n";
+    else if constexpr (std::is_same_v<T, std::weak_ordering>)
+        std::cout << "weak ordering\n";
+    else if constexpr (std::is_same_v<T, std::partial_ordering>)
+        std::cout << "partial ordering\n";
+    else
+        std::cout << "illegal comparison result type\n";
+}
+
+struct weakOrdering
+{
+    int m_val;
+    weakOrdering(int val) : m_val(val) {}
+};
+
+constexpr std::weak_ordering operator<=>(const weakOrdering& lhs, const weakOrdering& rhs)
+{
+    return lhs.m_val <=> rhs.m_val;
+}
+
+
 
 void span()
 {
@@ -118,9 +147,32 @@ void numbers()
     std::cout << (std::sin(std::numbers::e)^²) + (std::cos(std::numbers::e)^²) << '\n'; // 1
 }
 
+void compare()
+{
+    //std::strong_ordering - подразумевает заменяемость, т.е если a эквивалентно b, то f(a) так же эквиваленто f(b). Иными словами
+    //эквивалентные значения неразличимы. Так же не допускаются несравнимые значения, т.е a<b;a==b;a>b должны быть true;
+    ordering<std::compare_three_way_result_t<char>>();
+    //std::weak_ordering - тоже что и strong_ordering, только там не подрузамевается заменяемость, т.е. если a эквивалентно b, то
+    //f(a) может быть не эквивалентен f(b), т.е. эквивалентные значения могут быть различимы
+    ordering<std::compare_three_way_result_t<weakOrdering>>();
+    //std::partial_ordering - похож на weak_ordering, но тут допускаются несравнимые значения, т.е a<b;a==b;a>b могут быть false
+    ordering<std::compare_three_way_result_t<float>>();
+
+    auto f1 = 0.f;
+    auto f2 = 0.f;
+    auto f3 = 0.1f;
+    std::cout << std::is_eq  (f1 <=> f2) << '\n';
+    std::cout << std::is_neq (f1 <=> f3) << '\n';
+    std::cout << std::is_lt  (f1 <=> f3) << '\n';
+    std::cout << std::is_lteq(f1 <=> f2) << '\n';
+    std::cout << std::is_gt  (f3 <=> f2) << '\n';
+    std::cout << std::is_gteq(f1 <=> f2) << '\n';
+}
+
 void othersExamples()
 {
     span();
     bit();
     numbers();
+    compare();
 }
