@@ -3,6 +3,7 @@
  * Стандартная библиотека предоставляет некоторые готовые концепты 
  */
 
+#include <compare>
 #include <concepts>
 #include <ranges>
 #include <span>
@@ -354,6 +355,15 @@ bool isViewableRange(const T& a)
 }
 /*Концепты из ranges хэдера*/
 
+/*Концепты из compare хэдера*/
+//1 - three_way_comparable/three_way_comparable_with указывает на то, что оператор <=> предоставляет устойчивый результат
+//для переданных типов
+template<typename T, typename U> requires std::three_way_comparable_with<T,U>
+bool isThreeWay(const T& a, const T& b)
+{
+    return 1;
+}
+/*Концепты из compare хэдера*/
 void conceptExamples()
 {
     std::cout << "\nConcept Examples: \n";
@@ -577,4 +587,9 @@ void conceptExamples()
     std::cout << isViewableRange(str_view) << '\n';
 //    std::cout << isViewableRange(c_arr) << '\n'; // Error: си массив владеет своими объектами
     std::cout << isViewableRange(span) << '\n';
+
+    /*Концепты из compare хэдера*/
+    std::cout << isThreeWay<int, int>(signedVal2, signedVal1) << '\n';
+    std::cout << isThreeWay<char, int>(ch1, signedVal1) << '\n';
+//    std::cout << isThreeWay<std::string, int>(str, signedVal1) << '\n';
 }
