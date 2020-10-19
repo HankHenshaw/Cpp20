@@ -220,6 +220,11 @@ void templatedLambda()
 //    tlambda2(2.f); // Error: float не является интегральным типом
 }
 
+consteval size_t fiboEval(size_t n)
+{
+    return std::round(std::pow(std::numbers::phi, n)/std::sqrt(5));
+}
+
 void othersExamples()
 {
     span();
@@ -228,5 +233,7 @@ void othersExamples()
     compare();
     stopToken();
     templatedLambda();
+
+    std::cout << fiboEval(10) << '\n';
 //    sourceLocation();
 }
