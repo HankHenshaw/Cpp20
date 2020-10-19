@@ -14,7 +14,15 @@
 #include <compare>
 #include <type_traits>
 #include <map>
-//#include <source_location> // gcc 10.2 не поддерживает source_location
+#include <thread>
+#include <stop_token>
+/* Gcc 10.2 не поддерживает
+ * #include <source_location> 
+ * #include <semaphore>
+ * #include <barrier>
+ * #include <latch> */
+
+using namespace std::literals::chrono_literals;
 
 struct two_t{};
 template<typename T>
@@ -178,11 +186,30 @@ void compare()
 //               << "Column: "        << loc.column()        << '\n';
 // }
 
+void tokenFoo(std::stop_token token)
+{
+    for(size_t i = 0; !token.stop_requested(); ++i)
+    {
+        std::cout << i << '\n';
+        std::this_thread::sleep_for(1s);
+    }
+    std::cout << "Stopped\n";
+}
+
+void stopToken()
+{
+    std::jthread jth(tokenFoo);
+
+    if(jth.get_stop_token().stop_possible())
+        std::this_thread::sleep_for(3s);
+}
+
 void othersExamples()
 {
     span();
     bit();
     numbers();
     compare();
+    stopToken();
 //    sourceLocation();
 }

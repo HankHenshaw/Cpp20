@@ -9,3 +9,7 @@ set_target_properties(cpp PROPERTIES
     CXX_STANDARD_REQUIRED ON
     COMPILE_OPTIONS "-Wall;-Wextra;-Wpedantic;-fcoroutines"
 )
+
+target_link_libraries(cpp
+    ${CMAKE_THREAD_LIBS_INIT}
+)
