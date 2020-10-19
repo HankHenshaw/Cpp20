@@ -16,6 +16,7 @@
 #include <map>
 #include <thread>
 #include <stop_token>
+#include <concepts>
 /* Gcc 10.2 не поддерживает
  * #include <source_location> 
  * #include <semaphore>
@@ -200,8 +201,23 @@ void stopToken()
 {
     std::jthread jth(tokenFoo);
 
+    std::stop_callback cb{jth.get_stop_token(), []{std::cout << "Callbacked\n";}};
+
     if(jth.get_stop_token().stop_possible())
+    {
         std::this_thread::sleep_for(3s);
+        jth.request_stop();
+    }
+}
+
+void templatedLambda()
+{
+    auto tlambda1 = []<typename... Args>(Args&& ...args){(std::cout << ... << args) << '\n';};
+    tlambda1(5, '\n', 6.1f, '\n', "string");
+
+    auto tlambda2 = []<std::integral T>(T val){std::cout << val << '\n';};
+    tlambda2(50);
+//    tlambda2(2.f); // Error: float не является интегральным типом
 }
 
 void othersExamples()
@@ -211,5 +227,6 @@ void othersExamples()
     numbers();
     compare();
     stopToken();
+    templatedLambda();
 //    sourceLocation();
 }
