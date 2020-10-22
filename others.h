@@ -225,6 +225,32 @@ consteval size_t fiboEval(size_t n)
     return std::round(std::pow(std::numbers::phi, n)/std::sqrt(5));
 }
 
+void cinit()
+{
+    constinit static int x = 5;
+    constinit thread_local int th_x = 5;
+    //constinit int x = 5; // Error: constinit может быть применен только к статическим или потоковым переменным
+}
+
+void attribute(int val)
+{
+    switch (val)
+    {
+    [[likely]]   case 1:
+        std::cout << "Likely\n";
+        break;
+    [[unlikely]] case 2:
+        std::cout << "Unlikely\n";
+        break;
+    case 3:
+        std::cout << "Fallthrough\n";
+        [[fallthrough]];
+    default:
+        std::cout << "Default\n";
+        break;
+    }
+}
+
 void othersExamples()
 {
     span();
