@@ -1,5 +1,6 @@
 //Остальные нововведения С++20
 
+#include <string_view>
 #include <cmath>
 #include <span>
 #include <array>
@@ -18,6 +19,7 @@
 #include <stop_token>
 #include <concepts>
 /* Gcc 10.2 не поддерживает
+ * #include <format>
  * #include <source_location> 
  * #include <semaphore>
  * #include <barrier>
@@ -234,6 +236,7 @@ void cinit()
 
 void attribute(int val)
 {
+    //likely и unlikely помогают компилятору оптимизировать кейсы которые помечены как наиболее/наимение вероятные 
     switch (val)
     {
     [[likely]]   case 1:
@@ -251,6 +254,21 @@ void attribute(int val)
     }
 }
 
+struct str
+{
+    int m_i;
+    double m_d;
+    std::string_view m_sv;
+    float m_f;
+};
+
+void designatedInitiallizer()
+{
+    str s{.m_i = 5, .m_d = 0.5, .m_sv = "Hello World"}; // m_f будет инициализированна 0
+//    str s2{.m_d = 0.5, .m_i = 5, .m_sv = "Hello World"}; // Error: инициализация не соответствует порядку объявления
+    std::cout << s.m_i << "|" << s.m_d << "|" << s.m_sv << "|" << s.m_f << '\n';
+}
+
 void othersExamples()
 {
     span();
@@ -259,7 +277,11 @@ void othersExamples()
     compare();
     stopToken();
     templatedLambda();
-
+    attribute(1);
+    attribute(2);
+    attribute(3);
+    attribute(4);
+    designatedInitiallizer();
     std::cout << fiboEval(10) << '\n';
 //    sourceLocation();
 }
