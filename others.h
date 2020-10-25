@@ -297,6 +297,30 @@ void midPoint()
     }    
 }
 
+void lerp()
+{
+    int x = 0;
+    int y = 10;
+    std::cout << "Interpolation:\n";
+    std::cout << std::lerp(x,y,0.5f) << '\n'; // 3
+    std::cout << std::lerp(x,y,0.3f) << '\n'; // 5
+    std::cout << "Extrapolation:\n";
+    std::cout << std::lerp(x,y,1.5f) << '\n'; // 15
+    std::cout << std::lerp(x,y,2.0f) << '\n'; // 20
+}
+
+void erase()
+{
+    std::vector<int> v(10,5);
+    std::iota(std::begin(v), std::end(v), 0);
+    std::cout << "Before Erase:\n";
+    std::copy(std::begin(v), std::end(v), std::ostream_iterator<int>(std::cout, "|"));
+    auto val = std::erase_if(v, [](int i){return i&1;}); // 0 2 4 6 8
+    std::cout << "\nAfter Erase:\n";
+    std::copy(std::begin(v), std::end(v), std::ostream_iterator<int>(std::cout, "|"));
+    std::cout << '\n' << val << " elements was erased\n";
+}
+
 void othersExamples()
 {
     span();
@@ -311,6 +335,8 @@ void othersExamples()
     attribute(4);
     designatedInitiallizer();
     midPoint();
+    lerp();
+    erase();
     std::cout << fiboEval(10) << '\n';
 //    sourceLocation();
 }
