@@ -18,6 +18,7 @@
 #include <thread>
 #include <stop_token>
 #include <concepts>
+#include <numeric>
 /* Gcc 10.2 не поддерживает
  * #include <format>
  * #include <source_location> 
@@ -269,6 +270,33 @@ void designatedInitiallizer()
     std::cout << s.m_i << "|" << s.m_d << "|" << s.m_sv << "|" << s.m_f << '\n';
 }
 
+template<typename SortedContainter>
+bool binSearch(const SortedContainter &cont, size_t begin, size_t end, const typename SortedContainter::value_type &val)
+{
+    if(end >= begin)
+    {
+        auto mid = std::midpoint(begin, end);
+        if(cont[mid] == val) return true;
+        else if(cont[mid] > val) return binSearch(cont, begin, mid - 1, val);
+        else if(cont[mid] < val) return binSearch(cont, mid + 1, end, val);
+    }
+    return false;
+}
+
+void midPoint()
+{
+    int x = -5;
+    int y = 5;
+    std::cout << "Mid Point between " << x << " and " << y << " = " << std::midpoint(x,y) << '\n';
+
+    std::vector<int> v(10,0);
+    std::iota(std::begin(v), std::end(v), 0);
+    for(int i = 0; i < 11; ++i)
+    {
+        std::cout << i << " - " << binSearch(v, 0, v.size(), i) << '\n';
+    }    
+}
+
 void othersExamples()
 {
     span();
@@ -282,6 +310,7 @@ void othersExamples()
     attribute(3);
     attribute(4);
     designatedInitiallizer();
+    midPoint();
     std::cout << fiboEval(10) << '\n';
 //    sourceLocation();
 }
