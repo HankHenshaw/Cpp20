@@ -332,6 +332,19 @@ void strStrVw()
     std::cout << "Is svw ends with Cpp23? - "   << str.ends_with("Cpp23")   << '\n';
 }
 
+void ssize()
+{
+    std::vector v{1,2,3,4,5};
+    auto size  =  std::size(v);
+    auto ssize = std::ssize(v);
+
+    std::cout << std::is_signed<decltype(size)>::value  << '\n'; // false
+    std::cout << std::is_signed<decltype(ssize)>::value << '\n'; // true
+
+    std::cout << std::is_unsigned<decltype(size)>::value  << '\n'; // true
+    std::cout << std::is_unsigned<decltype(ssize)>::value << '\n'; // false
+}
+
 void othersExamples()
 {
     span();
@@ -349,6 +362,7 @@ void othersExamples()
     lerp();
     erase();
     strStrVw();
+    ssize();
     std::cout << fiboEval(10) << '\n';
 //    sourceLocation();
 }
