@@ -321,6 +321,17 @@ void erase()
     std::cout << '\n' << val << " elements was erased\n";
 }
 
+void strStrVw()
+{
+    std::string      str{"Hello, World!"};
+    std::string_view svw{"Welcome Cpp20"};
+
+    std::cout << "Is str starts with Hallo? - " << str.starts_with("Hallo") << '\n';
+    std::cout << "Is str ends with orld!? - "   << str.ends_with("orld!")   << '\n';
+    std::cout << "Is svw starts with Welco? - " << svw.starts_with("Welco") << '\n';
+    std::cout << "Is svw ends with Cpp23? - "   << str.ends_with("Cpp23")   << '\n';
+}
+
 void othersExamples()
 {
     span();
@@ -337,6 +348,7 @@ void othersExamples()
     midPoint();
     lerp();
     erase();
+    strStrVw();
     std::cout << fiboEval(10) << '\n';
 //    sourceLocation();
 }
